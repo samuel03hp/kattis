@@ -8,6 +8,9 @@ pieces on positions described by the input. The pieces of
 the white player are shown in upper-case, while the black
 player's pieces are lower-case.
 
+White - UPPER CASE
+Black - lower case
+
 K - King
 Q - Queen
 R - Rook
@@ -35,7 +38,7 @@ pieces of the appropriate player. The description of a piece
 consists of a single upper-case letter that denotes the type 
 of the piece (except for pawns, for that this identifier is 
 omitted). This letter is immediatelly followed by the position 
-of the piece in the standard chess notation – a lower-case 
+of the piece in the standard chess notation - a lower-case 
 letter between “a” and “h” that determines the column (“a” is 
 the leftmost column in the input) and a single digit between 1 
 and 8 that determines the row (8 is the first row in the input).
@@ -106,6 +109,59 @@ Sample Input 2:
 Sample Output 2:
 White: 
 Black: Kh5,Ke1
-
-
 '''
+
+#input is 17 lines in total
+
+board = []
+white = []
+black = []
+column = ["a","b","c","d","e","f","g","h"]
+
+for i in range(17):
+    row = input()
+    #Save all rows with pieces
+    if i % 2 != 0:
+        board.append(row)
+
+for r in range(len(board)):
+    row = board[r]
+
+    split_row = list(row)
+
+    #Positions with possible pieces: 
+    # 2, 6, 10, 14, 18, 22, 26, 30
+    just_pieces = []
+    for i in range(2, len(split_row), 4):
+        just_pieces.append(split_row[i])
+    
+
+    print("pieces", just_pieces)
+
+    for i in range(len(just_pieces)):
+        if just_pieces[i].isalpha():
+            if just_pieces[i].lower() != "p":
+                out_string = just_pieces[i].upper() + column[i] + str(8-r)
+            else:
+                out_string = column[i] + str(8-r)
+
+            if just_pieces[i].isupper():
+                white.append(out_string)
+            else:
+                black.append(out_string)
+    
+#Order the strings
+'''
+Two pieces of same type in input:
+White: smaller row number first in output
+Black: larger row number first in output
+
+Two pieces of same type in same row:
+Smaller column letter first in output
+'''
+
+
+
+
+print("White: ", white)
+print("Black: ", black)
