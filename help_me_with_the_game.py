@@ -118,6 +118,9 @@ white = []
 black = []
 column = ["a","b","c","d","e","f","g","h"]
 
+white_out = []
+black_out = []
+
 for i in range(17):
     row = input()
     #Save all rows with pieces
@@ -158,10 +161,98 @@ Black: larger row number first in output
 
 Two pieces of same type in same row:
 Smaller column letter first in output
+
+Row-number: last digit in piece
+Column-letter: second to last digit in piece
 '''
+def add_piece(piece, current_list, is_black):
+    count = 0
+    added = False
+    if len(current_list) > 0:
+        print("len(list) > 0", piece)
+        if is_black:
+            #larger row number first
+            #Check for position
+            for entry in current_list:
+                print("piece =", piece, "piece[-1] =", piece[-1])
+                print("entry =", entry, "entry[-1] =", entry[-1])
+                if list(piece)[-1] > list(entry)[-1]:
+                    print("int(piece[-1]) > int(entry[-1]) and count =", count)
+                    current_list.insert(count, piece)
+                    added = True
+                    break
+                elif int(piece[-1]) == int(entry[-1]):
+                    #Check letter
+                    if piece[-2] < entry[-2]:
+                        current_list.insert(count, piece)
+                        added = True
+                        break
+                count += 1
+            if added == False:
+                current_list.append(piece)
+        else:
+            #smaller row number first
+            #Check for position
+            for entry in current_list:
+                if int(piece[-1]) < int(entry[-1]):
+                    current_list.insert(count, piece)
+                    added = True
+                    break
+                elif int(piece[-1]) == int(entry[-1]):
+                    #Check letter
+                    if piece[-2] < entry[-2]:
+                        current_list.insert(count, piece)
+                        added = True
+                        break
+                count += 1
+            if added == False:
+                current_list.append(piece)
+    else:
+        current_list.append(piece)
+    
+    return current_list
+                
 
+def sort_list(colour_list, is_black, out_list):
+    kings = []
+    queens = []
+    rooks = []
+    bishops = []
+    knights = []
+    pawns = []
 
+    for piece in colour_list:
+        if len(piece) == 2:
+            add_piece(piece, pawns, is_black)
+        else:
+            if piece[0].lower() == "k":
+                add_piece(piece, kings, is_black)
+            elif piece[0].lower() == "q":
+                add_piece(piece, queens, is_black)
+            elif piece[0].lower() == "r":
+                add_piece(piece, rooks, is_black)
+            elif piece[0].lower() == "b":
+                add_piece(piece, bishops, is_black)
+            elif piece[0].lower() == "n":
+                add_piece(piece, knights, is_black)
 
+    out_list = kings + queens + rooks + bishops + knights + pawns
+
+    return out_list
+            
+            
+
+is_black = True
+black_out = sort_list(black, is_black, black_out)
+
+is_black = False
+white_out = sort_list(white, is_black, white_out)
+
+white_string = ",".join(white_out)
+black_string = ",".join(black_out)
 
 print("White: ", white)
 print("Black: ", black)
+print("\n")
+print("White:", white_string)
+print("Black:", black_string)
