@@ -139,8 +139,6 @@ for r in range(len(board)):
         just_pieces.append(split_row[i])
     
 
-    print("pieces", just_pieces)
-
     for i in range(len(just_pieces)):
         if just_pieces[i].isalpha():
             if just_pieces[i].lower() != "p":
@@ -169,15 +167,11 @@ def add_piece(piece, current_list, is_black):
     count = 0
     added = False
     if len(current_list) > 0:
-        print("len(list) > 0", piece)
         if is_black:
             #larger row number first
             #Check for position
             for entry in current_list:
-                print("piece =", piece, "piece[-1] =", piece[-1])
-                print("entry =", entry, "entry[-1] =", entry[-1])
                 if list(piece)[-1] > list(entry)[-1]:
-                    print("int(piece[-1]) > int(entry[-1]) and count =", count)
                     current_list.insert(count, piece)
                     added = True
                     break
@@ -251,8 +245,5 @@ white_out = sort_list(white, is_black, white_out)
 white_string = ",".join(white_out)
 black_string = ",".join(black_out)
 
-print("White: ", white)
-print("Black: ", black)
-print("\n")
 print("White:", white_string)
 print("Black:", black_string)
